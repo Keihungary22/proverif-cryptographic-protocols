@@ -1,0 +1,12 @@
+(* Basic secrecy: private message over a private channel *)
+
+free c : channel.
+free privateC : channel [private].
+
+free publicMsg : bitstring.
+free secretMsg : bitstring [private].
+
+query attacker(secretMsg).
+
+process
+    out(privateC, secretMsg)
