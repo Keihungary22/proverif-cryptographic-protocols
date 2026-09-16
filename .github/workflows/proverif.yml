@@ -32,9 +32,7 @@ jobs:
         run: opam install proverif.2.05 -y
 
       - name: Check ProVerif installation
-        run: |
-          command -v proverif
-          proverif -help | head -n 1
+        run: opam exec -- proverif -help
 
       - name: Run ProVerif verification
-        run: ./scripts/verify-basic-secrecy.sh
+        run: opam exec -- ./scripts/verify-basic-secrecy.sh
