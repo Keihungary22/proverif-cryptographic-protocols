@@ -1,0 +1,40 @@
+name: ProVerif Verification
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify ProVerif models
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk2.0-dev pkg-config
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "4.14"
+
+      - name: Install ProVerif
+        run: opam install proverif.2.05 -y
+
+      - name: Check ProVerif installation
+        run: |
+          command -v proverif
+          proverif -help | head -n 1
+
+      - name: Run ProVerif verification
+        run: ./scripts/verify-basic-secrecy.sh
