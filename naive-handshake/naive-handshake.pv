@@ -55,6 +55,13 @@ let serverB(pkB:spkey, skB:sskey) =
   let z = sdec(x, k) in
   0.
 
-(* Temporary process while the main process is being built *)
+(* Main process *)
 process
-  0
+  new skA:skey;
+  new skB:sskey;
+  let pkA = pk(skA) in
+  out(c, pkA);
+  let pkB = spk(skB) in
+  out(c, pkB);
+  (! clientA(pkA, skA, pkB) |
+   ! serverB(pkB, skB))
