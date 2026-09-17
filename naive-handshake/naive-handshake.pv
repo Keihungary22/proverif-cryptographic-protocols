@@ -1,0 +1,43 @@
+(* Naive handshake protocol *)
+
+(* Attacker-controlled public channel *)
+free c : channel.
+
+(* Key types *)
+type key.
+type skey.
+type pkey.
+type sskey.
+type spkey.
+
+(* Public-key encryption keys *)
+fun pk(skey) : pkey.
+
+(* Server signing keys *)
+fun spk(sskey) : spkey.
+
+(* Symmetric encryption *)
+fun senc(bitstring, key) : bitstring.
+reduc forall m:bitstring, k:key;
+  sdec(senc(m,k),k) = m.
+
+(* Asymmetric encryption *)
+fun aenc(bitstring, pkey) : bitstring.
+reduc forall m:bitstring, k:skey;
+  adec(aenc(m,pk(k)),k) = m.
+
+(* Digital signatures with message recovery *)
+fun sign(bitstring, sskey) : bitstring.
+reduc forall m:bitstring, k:sskey;
+  getmess(sign(m,k)) = m.
+reduc forall m:bitstring, k:sskey;
+  checksign(sign(m,k),spk(k)) = m.
+
+(* Protected application secret *)
+free s : bitstring [private].
+
+query attacker(s).
+
+(* Temporary process while the protocol roles are being built *)
+process
+  0
