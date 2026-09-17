@@ -74,12 +74,27 @@ is an expected result and therefore counts as a successful verification check.
 
 ## Continuous Integration
 
-GitHub Actions automatically runs the ProVerif verification workflow on:
+GitHub Actions automatically runs verification and static-analysis checks on:
 
 - pull requests
 - pushes to `main`
 
-The CI workflow reuses the same local verification script to keep local and automated verification behavior consistent.
+The CI pipeline includes three complementary checks:
+
+- **ProVerif** — verifies that each cryptographic protocol model produces its expected security result
+- **ShellCheck** — performs static analysis of Shell scripts under `scripts/`
+- **actionlint** — validates GitHub Actions workflow files under `.github/workflows/`
+
+The ProVerif workflow reuses `scripts/verify-models.sh` so local and automated verification behavior remain consistent.
+
+Static-analysis checks can also be run locally:
+
+~~~bash
+shellcheck scripts/*.sh
+actionlint
+~~~
+
+ShellCheck detects common Shell scripting errors and unsafe patterns, while actionlint detects syntax and configuration problems in GitHub Actions workflows.
 
 ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
@@ -165,9 +180,24 @@ RESULT not attacker(secretMsg[]) is false.
 
 ## 継続的インテグレーション
 
-GitHub Actionsによって、ProVerifの検証ワークフローが以下のタイミングで自動実行されます。
+GitHub Actionsによって、検証とstatic analysisが以下のタイミングで自動実行されます。
 
 - Pull Requestの作成・更新時
 - `main` ブランチへのpush時
 
-CIではローカル環境と同じ検証スクリプトを再利用することで、ローカル検証と自動検証の挙動を一致させています。
+CIでは以下の3種類のチェックを実行します。
+
+- **ProVerif** — 各暗号プロトコルモデルが期待されるsecurity resultを返すことを検証
+- **ShellCheck** — `scripts/` 配下のShell scriptを静的解析
+- **actionlint** — `.github/workflows/` 配下のGitHub Actions workflowを検証
+
+ProVerif workflowでは `scripts/verify-models.sh` を再利用し、ローカル検証とCI上の検証結果を一致させています。
+
+static analysisはローカルでも実行できます。
+
+~~~bash
+shellcheck scripts/*.sh
+actionlint
+~~~
+
+ShellCheckはShell scriptの一般的な記述ミスや危険なパターンを検出し、actionlintはGitHub Actions workflowのsyntaxや設定上の問題を検出します。
