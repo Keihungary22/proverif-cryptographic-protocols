@@ -38,6 +38,14 @@ free s : bitstring [private].
 
 query attacker(s).
 
-(* Temporary process while the protocol roles are being built *)
+(* Client role *)
+let clientA(pkA:pkey, skA:skey, pkB:spkey) =
+  out(c, pkA);
+  in(c, x:bitstring);
+  let y = adec(x, skA) in
+  let (=pkB, k:key) = checksign(y, pkB) in
+  out(c, senc(s, k)).
+
+(* Temporary process while the server role is being built *)
 process
   0
