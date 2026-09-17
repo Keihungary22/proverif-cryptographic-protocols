@@ -61,4 +61,10 @@ verify_model \
     "naive-handshake/naive-handshake.pv" \
     "RESULT not attacker(s[]) is false."
 
+# Client key binding repair
+
+verify_model \
+    "client-key-binding/repaired-handshake.pv" \
+    "RESULT not attacker(s[]) is true."
+
 echo "All ProVerif model verification checks passed."
