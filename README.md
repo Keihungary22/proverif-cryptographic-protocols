@@ -81,6 +81,20 @@ ProVerifを用いた暗号プロトコルのモデリングと形式検証を行
 
 各モデルの検証結果と解説については、[`basic-secrecy/README.md`](basic-secrecy/README.md) を参照してください。
 
+### Naive Handshake
+
+`naive-handshake/` ディレクトリには、意図的に脆弱なpublic-key handshake modelが含まれています。
+
+以下の内容を扱います。
+
+- 共通鍵暗号と公開鍵暗号
+- 電子署名
+- fresh session key
+- replicationによる複数プロトコルセッション
+- client key bindingの欠如によって発生するcross-session attack
+
+プロトコルモデル、検証結果、攻撃分析については、[`naive-handshake/README.md`](naive-handshake/README.md) を参照してください。
+
 ## 検証
 
 このリポジトリには、各モデルのProVerif実行結果が期待される結果と一致するかを自動確認する検証スクリプトが含まれています。
