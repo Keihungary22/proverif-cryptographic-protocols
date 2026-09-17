@@ -15,6 +15,18 @@ The `basic-secrecy/` directory contains introductory models demonstrating:
 
 See [`basic-secrecy/README.md`](basic-secrecy/README.md) for model-specific results and explanations.
 
+### Naive Handshake
+
+The `naive-handshake/` directory contains a deliberately vulnerable public-key handshake model demonstrating:
+
+- symmetric and asymmetric encryption
+- digital signatures
+- fresh session keys
+- replicated protocol sessions
+- a cross-session attack caused by missing client-key binding
+
+See [`naive-handshake/README.md`](naive-handshake/README.md) for the protocol model, verification result, and attack analysis.
+
 ## Verification
 
 The repository includes an automated verification script that checks each model against its expected ProVerif result.
@@ -22,13 +34,13 @@ The repository includes an automated verification script that checks each model 
 Run the verification locally from the repository root:
 
 ```bash
-./scripts/verify-basic-secrecy.sh
+./scripts/verify-models.sh
 ```
 
 A successful run ends with:
 
 ```text
-All basic secrecy verification checks passed.
+All ProVerif model verification checks passed.
 ```
 
 Some models intentionally demonstrate secrecy violations. For those models, a ProVerif result such as:
@@ -76,13 +88,13 @@ ProVerifを用いた暗号プロトコルのモデリングと形式検証を行
 リポジトリのルートディレクトリから、以下のコマンドでローカル検証を実行できます。
 
 ```bash
-./scripts/verify-basic-secrecy.sh
+./scripts/verify-models.sh
 ```
 
 すべての検証が成功すると、最後に以下が表示されます。
 
 ```text
-All basic secrecy verification checks passed.
+All ProVerif model verification checks passed.
 ```
 
 一部のモデルは、秘密性が破られる状況を意図的に再現しています。
