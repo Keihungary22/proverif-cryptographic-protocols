@@ -46,6 +46,15 @@ let clientA(pkA:pkey, skA:skey, pkB:spkey) =
   let (=pkB, k:key) = checksign(y, pkB) in
   out(c, senc(s, k)).
 
-(* Temporary process while the server role is being built *)
+(* Server role *)
+let serverB(pkB:spkey, skB:sskey) =
+  in(c, pkX:pkey);
+  new k:key;
+  out(c, aenc(sign((pkB, k), skB), pkX));
+  in(c, x:bitstring);
+  let z = sdec(x, k) in
+  0.
+
+(* Temporary process while the main process is being built *)
 process
   0
