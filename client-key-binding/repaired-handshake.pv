@@ -1,0 +1,67 @@
+(* Naive handshake protocol *)
+
+(* Attacker-controlled public channel *)
+free c : channel.
+
+(* Key types *)
+type key.
+type skey.
+type pkey.
+type sskey.
+type spkey.
+
+(* Public-key encryption keys *)
+fun pk(skey) : pkey.
+
+(* Server signing keys *)
+fun spk(sskey) : spkey.
+
+(* Symmetric encryption *)
+fun senc(bitstring, key) : bitstring.
+reduc forall m:bitstring, k:key;
+  sdec(senc(m,k),k) = m.
+
+(* Asymmetric encryption *)
+fun aenc(bitstring, pkey) : bitstring.
+reduc forall m:bitstring, k:skey;
+  adec(aenc(m,pk(k)),k) = m.
+
+(* Digital signatures with message recovery *)
+fun sign(bitstring, sskey) : bitstring.
+reduc forall m:bitstring, k:sskey;
+  getmess(sign(m,k)) = m.
+reduc forall m:bitstring, k:sskey;
+  checksign(sign(m,k),spk(k)) = m.
+
+(* Protected application secret *)
+free s : bitstring [private].
+
+query attacker(s).
+
+(* Client role *)
+let clientA(pkA:pkey, skA:skey, pkB:spkey) =
+  out(c, pkA);
+  in(c, x:bitstring);
+  let y = adec(x, skA) in
+  let (=pkA, =pkB, k:key) = checksign(y, pkB) in
+  out(c, senc(s, k)).
+
+(* Server role *)
+let serverB(pkB:spkey, skB:sskey) =
+  in(c, pkX:pkey);
+  new k:key;
+  out(c, aenc(sign((pkX, pkB, k), skB), pkX));
+  in(c, x:bitstring);
+  let z = sdec(x, k) in
+  0.
+
+(* Main process *)
+process
+  new skA:skey;
+  new skB:sskey;
+  let pkA = pk(skA) in
+  out(c, pkA);
+  let pkB = spk(skB) in
+  out(c, pkB);
+  (! clientA(pkA, skA, pkB) |
+   ! serverB(pkB, skB))
