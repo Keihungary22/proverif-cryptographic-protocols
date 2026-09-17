@@ -27,6 +27,27 @@ The `naive-handshake/` directory contains a deliberately vulnerable public-key h
 
 See [`naive-handshake/README.md`](naive-handshake/README.md) for the protocol model, verification result, and attack analysis.
 
+### Client Key Binding Repair
+
+The `client-key-binding/` directory contains a repaired version of the naive handshake protocol.
+
+The repair binds the fresh session key to the intended client's public key by signing:
+
+~~~text
+(pkX, pkB, k)
+~~~
+
+The client then verifies that the signed client public key matches its own `pkA`.
+
+This changes the secrecy result from:
+
+~~~text
+Vulnerable: RESULT not attacker(s[]) is false.
+Repaired:   RESULT not attacker(s[]) is true.
+~~~
+
+See [`client-key-binding/README.md`](client-key-binding/README.md) for the repair and comparison.
+
 ## Verification
 
 The repository includes an automated verification script that checks each model against its expected ProVerif result.
@@ -94,6 +115,27 @@ ProVerifを用いた暗号プロトコルのモデリングと形式検証を行
 - client key bindingの欠如によって発生するcross-session attack
 
 プロトコルモデル、検証結果、攻撃分析については、[`naive-handshake/README.md`](naive-handshake/README.md) を参照してください。
+
+### Client Key Binding Repair
+
+`client-key-binding/` ディレクトリには、naive handshake protocolの修正版が含まれています。
+
+修正版ではfresh session keyを本来のClient public keyにbindingするため、Serverが以下を署名します。
+
+~~~text
+(pkX, pkB, k)
+~~~
+
+Client側では、署名されたClient public keyが自身の `pkA` と一致することを確認します。
+
+これによりsecrecy resultは以下のように変化します。
+
+~~~text
+Vulnerable: RESULT not attacker(s[]) is false.
+Repaired:   RESULT not attacker(s[]) is true.
+~~~
+
+修正内容と比較については、[`client-key-binding/README.md`](client-key-binding/README.md) を参照してください。
 
 ## 検証
 
