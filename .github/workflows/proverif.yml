@@ -35,4 +35,4 @@ jobs:
         run: opam exec -- proverif -help
 
       - name: Run ProVerif verification
-        run: opam exec -- ./scripts/verify-basic-secrecy.sh
+        run: opam exec -- ./scripts/verify-models.sh
