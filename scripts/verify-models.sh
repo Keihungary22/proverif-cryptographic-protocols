@@ -37,6 +37,8 @@ verify_model() {
     echo
 }
 
+# Basic secrecy models
+
 verify_model \
     "basic-secrecy/public-message.pv" \
     "RESULT not attacker(secretMsg[]) is true."
@@ -53,4 +55,10 @@ verify_model \
     "basic-secrecy/tuple-leak.pv" \
     "RESULT not attacker(secretMsg[]) is false."
 
-echo "All basic secrecy verification checks passed."
+# Naive handshake model
+
+verify_model \
+    "naive-handshake/naive-handshake.pv" \
+    "RESULT not attacker(s[]) is false."
+
+echo "All ProVerif model verification checks passed."
