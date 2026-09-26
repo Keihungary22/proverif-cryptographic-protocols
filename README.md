@@ -48,6 +48,24 @@ Repaired:   RESULT not attacker(s[]) is true.
 
 See [`client-key-binding/README.md`](client-key-binding/README.md) for the repair and comparison.
 
+### Needham-Schroeder Public-Key Protocol
+
+The `needham-schroeder/` directory contains a vulnerable Needham-Schroeder public-key protocol model demonstrating:
+
+- fresh nonce challenge-response
+- authentication events
+- correspondence queries
+- the classical Lowe attack
+- authentication failure caused by missing responder-identity binding
+
+ProVerif reports the expected authentication failure:
+
+~~~text
+RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false.
+~~~
+
+See [`needham-schroeder/README.md`](needham-schroeder/README.md) for the model and attack analysis.
+
 ## Verification
 
 The repository includes an automated verification script that checks each model against its expected ProVerif result.
@@ -151,6 +169,26 @@ Repaired:   RESULT not attacker(s[]) is true.
 ~~~
 
 修正内容と比較については、[`client-key-binding/README.md`](client-key-binding/README.md) を参照してください。
+
+### Needham-Schroeder Public-Key Protocol
+
+`needham-schroeder/` ディレクトリには、脆弱なNeedham-Schroeder public-key protocol modelが含まれています。
+
+以下の内容を扱います。
+
+- fresh nonceを使ったchallenge-response
+- authentication event
+- correspondence query
+- classical Lowe attack
+- responder-identity bindingの欠如によるauthentication failure
+
+ProVerifでは期待どおりauthentication failureを確認します。
+
+~~~text
+RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false.
+~~~
+
+modelとattack analysisについては、[`needham-schroeder/README.md`](needham-schroeder/README.md) を参照してください。
 
 ## 検証
 
