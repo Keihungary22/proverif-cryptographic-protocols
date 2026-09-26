@@ -40,4 +40,18 @@ let processA(pkA:pkey, skA:skey, pkB:pkey) =
   out(c, aenc(nonceMsg(Nb), pkX));
   0.
 
+(* Responder role *)
+let processB(pkB:pkey, skB:skey) =
+  in(c, m1:bitstring);
+  let (Na:nonce, pkX:pkey) = adec(m1, skB) in
+  new Nb:nonce;
+  out(c, aenc((Na, Nb), pkX));
+  in(c, m3:bitstring);
+  let m3plain = adec(m3, skB) in
+  if m3plain = nonceMsg(Nb) then
+    (event endB(pkX, pkB, Na, Nb);
+     0)
+  else
+    0.
+
 process 0
