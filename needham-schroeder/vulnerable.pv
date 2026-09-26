@@ -15,6 +15,9 @@ free skI : skey.
 fun pk(skey) : pkey.
 fun aenc(bitstring, pkey) : bitstring.
 
+(* Public encoding of a nonce as an encryption payload *)
+fun nonceMsg(nonce) : bitstring.
+
 reduc forall m:bitstring, k:skey;
   adec(aenc(m, pk(k)), k) = m.
 
@@ -25,5 +28,16 @@ event endB(pkey, pkey, nonce, nonce).
 (* Bob-authentication query *)
 query x:pkey, y:pkey, na:nonce, nb:nonce;
   event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)).
+
+(* Initiator role *)
+let processA(pkA:pkey, skA:skey, pkB:pkey) =
+  in(c, pkX:pkey);
+  new Na:nonce;
+  event beginA(pkA, pkX, Na);
+  out(c, aenc((Na, pkA), pkX));
+  in(c, m2:bitstring);
+  let (=Na, Nb:nonce) = adec(m2, skA) in
+  out(c, aenc(nonceMsg(Nb), pkX));
+  0.
 
 process 0
