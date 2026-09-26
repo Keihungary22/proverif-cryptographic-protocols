@@ -67,4 +67,10 @@ verify_model \
     "client-key-binding/repaired-handshake.pv" \
     "RESULT not attacker(s[]) is true."
 
+# Needham-Schroeder public-key protocol
+
+verify_model \
+    "needham-schroeder/vulnerable.pv" \
+    "RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false."
+
 echo "All ProVerif model verification checks passed."
