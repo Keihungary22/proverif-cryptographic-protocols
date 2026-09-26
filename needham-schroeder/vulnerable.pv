@@ -1,0 +1,29 @@
+(* Needham-Schroeder public-key protocol *)
+
+(* Types *)
+type skey.
+type pkey.
+type nonce.
+
+(* Attacker-controlled public channel *)
+free c : channel.
+
+(* Attacker-known dishonest private key *)
+free skI : skey.
+
+(* Public-key cryptography *)
+fun pk(skey) : pkey.
+fun aenc(bitstring, pkey) : bitstring.
+
+reduc forall m:bitstring, k:skey;
+  adec(aenc(m, pk(k)), k) = m.
+
+(* Authentication events *)
+event beginA(pkey, pkey, nonce).
+event endB(pkey, pkey, nonce, nonce).
+
+(* Bob-authentication query *)
+query x:pkey, y:pkey, na:nonce, nb:nonce;
+  event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)).
+
+process 0
