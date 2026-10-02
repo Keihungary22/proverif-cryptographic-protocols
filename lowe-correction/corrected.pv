@@ -1,0 +1,72 @@
+(* Needham-Schroeder public-key protocol *)
+
+(* Types *)
+type skey.
+type pkey.
+type nonce.
+
+(* Attacker-controlled public channel *)
+free c : channel.
+
+(* Attacker-known dishonest private key *)
+free skI : skey.
+
+(* Public-key cryptography *)
+fun pk(skey) : pkey.
+fun aenc(bitstring, pkey) : bitstring.
+
+(* Public encoding of a nonce as an encryption payload *)
+fun nonceMsg(nonce) : bitstring.
+
+reduc forall m:bitstring, k:skey;
+  adec(aenc(m, pk(k)), k) = m.
+
+(* Authentication events *)
+event beginA(pkey, pkey, nonce).
+event endB(pkey, pkey, nonce, nonce).
+
+(* Bob-authentication query *)
+query x:pkey, y:pkey, na:nonce, nb:nonce;
+  event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)).
+
+(* Initiator role *)
+let processA(pkA:pkey, skA:skey, pkB:pkey) =
+  in(c, pkX:pkey);
+  new Na:nonce;
+  event beginA(pkA, pkX, Na);
+  out(c, aenc((Na, pkA), pkX));
+  in(c, m2:bitstring);
+  let (=Na, Nb:nonce, =pkX) = adec(m2, skA) in
+  out(c, aenc(nonceMsg(Nb), pkX));
+  0.
+
+(* Responder role *)
+let processB(pkA:pkey, pkB:pkey, skB:skey) =
+  in(c, m1:bitstring);
+  let (Na:nonce, pkX:pkey) = adec(m1, skB) in
+  new Nb:nonce;
+  out(c, aenc((Na, Nb, pkB), pkX));
+  in(c, m3:bitstring);
+  let m3plain = adec(m3, skB) in
+  if m3plain = nonceMsg(Nb) then
+    if pkX = pkA then
+      (event endB(pkX, pkB, Na, Nb);
+       0)
+    else
+      0
+  else
+    0.
+
+process
+  new skA:skey;
+  new skB:skey;
+  let pkA = pk(skA) in
+  let pkB = pk(skB) in
+  out(c, pkA);
+  out(c, pkB);
+  out(c, pk(skI));
+  (
+    !processA(pkA, skA, pkB)
+    |
+    !processB(pkA, pkB, skB)
+  )

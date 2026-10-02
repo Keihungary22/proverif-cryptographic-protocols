@@ -66,6 +66,19 @@ RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false.
 
 See [`needham-schroeder/README.md`](needham-schroeder/README.md) for the model and attack analysis.
 
+### Lowe's Correction
+
+The `lowe-correction/` directory contains the corrected Needham-Schroeder protocol.
+
+Lowe's correction adds the responder identity to message 2 and requires Alice to verify it.
+
+~~~text
+Vulnerable: RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false.
+Corrected:  RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is true.
+~~~
+
+See [`lowe-correction/README.md`](lowe-correction/README.md) for the correction and comparison.
+
 ## Verification
 
 The repository includes an automated verification script that checks each model against its expected ProVerif result.
@@ -189,6 +202,19 @@ RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false.
 ~~~
 
 modelとattack analysisについては、[`needham-schroeder/README.md`](needham-schroeder/README.md) を参照してください。
+
+### Lowe's Correction
+
+`lowe-correction/` ディレクトリには、Needham-Schroeder protocolの修正版が含まれています。
+
+Lowe's correctionではmessage 2にresponder identityを追加し、Aliceがそのidentityを確認します。
+
+~~~text
+Vulnerable: RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false.
+Corrected:  RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is true.
+~~~
+
+修正内容と比較については、[`lowe-correction/README.md`](lowe-correction/README.md) を参照してください。
 
 ## 検証
 
