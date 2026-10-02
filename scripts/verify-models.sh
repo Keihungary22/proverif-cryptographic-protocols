@@ -85,4 +85,10 @@ verify_model \
     "injective-authentication/injective.pv" \
     "RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is true."
 
+# Broken responder identity check
+
+verify_model \
+    "broken-identity-check/broken.pv" \
+    "RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is false."
+
 echo "All ProVerif model verification checks passed."
