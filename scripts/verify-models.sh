@@ -79,4 +79,10 @@ verify_model \
     "lowe-correction/corrected.pv" \
     "RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is true."
 
+# Injective authentication
+
+verify_model \
+    "injective-authentication/injective.pv" \
+    "RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is true."
+
 echo "All ProVerif model verification checks passed."
