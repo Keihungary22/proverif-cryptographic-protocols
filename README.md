@@ -91,6 +91,22 @@ This requires distinct Bob completion events to correspond to distinct Alice sta
 
 See [`injective-authentication/README.md`](injective-authentication/README.md) for details.
 
+### Broken Responder Identity Check
+
+The `broken-identity-check/` directory intentionally removes the responder identity equality check from the Lowe-corrected protocol.
+
+~~~prolog
+let (=Na, Nb:nonce, pkY:pkey) = adec(m2, skA) in
+~~~
+
+Without `=pkX`, Alice no longer verifies that the responder identity matches the peer she intended to contact.
+
+~~~text
+RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is false.
+~~~
+
+See [`broken-identity-check/README.md`](broken-identity-check/README.md) for the attack analysis.
+
 ## Verification
 
 The repository includes an automated verification script that checks each model against its expected ProVerif result.
@@ -239,6 +255,22 @@ RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is true.
 異なるBobの完了eventが、それぞれ異なるAliceの開始eventに対応することを要求します。
 
 詳細は [`injective-authentication/README.md`](injective-authentication/README.md) を参照してください。
+
+### Broken Responder Identity Check
+
+`broken-identity-check/` ディレクトリでは、Lowe修正版からresponder identityのequality checkを意図的に外しています。
+
+~~~prolog
+let (=Na, Nb:nonce, pkY:pkey) = adec(m2, skA) in
+~~~
+
+`=pkX` がないため、Aliceはmessage内のresponder identityが自分の意図した相手と一致することを確認しません。
+
+~~~text
+RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is false.
+~~~
+
+attack analysisについては [`broken-identity-check/README.md`](broken-identity-check/README.md) を参照してください。
 
 ## 検証
 
