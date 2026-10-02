@@ -79,6 +79,18 @@ Corrected:  RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is true.
 
 See [`lowe-correction/README.md`](lowe-correction/README.md) for the correction and comparison.
 
+### Injective Authentication
+
+The `injective-authentication/` directory strengthens the Lowe-corrected Needham-Schroeder authentication check using injective correspondence.
+
+~~~text
+RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is true.
+~~~
+
+This requires distinct Bob completion events to correspond to distinct Alice start events.
+
+See [`injective-authentication/README.md`](injective-authentication/README.md) for details.
+
 ## Verification
 
 The repository includes an automated verification script that checks each model against its expected ProVerif result.
@@ -215,6 +227,18 @@ Corrected:  RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is true.
 ~~~
 
 修正内容と比較については、[`lowe-correction/README.md`](lowe-correction/README.md) を参照してください。
+
+### Injective Authentication
+
+`injective-authentication/` ディレクトリでは、Lowe修正版Needham-Schroeder protocolに対してinjective correspondenceを使ったstronger authenticationを検証します。
+
+~~~text
+RESULT inj-event(endB(x,y,na,nb)) ==> inj-event(beginA(x,y,na)) is true.
+~~~
+
+異なるBobの完了eventが、それぞれ異なるAliceの開始eventに対応することを要求します。
+
+詳細は [`injective-authentication/README.md`](injective-authentication/README.md) を参照してください。
 
 ## 検証
 
