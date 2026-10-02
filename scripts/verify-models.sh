@@ -73,4 +73,10 @@ verify_model \
     "needham-schroeder/vulnerable.pv" \
     "RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is false."
 
+# Lowe-corrected Needham-Schroeder protocol
+
+verify_model \
+    "lowe-correction/corrected.pv" \
+    "RESULT event(endB(x,y,na,nb)) ==> event(beginA(x,y,na)) is true."
+
 echo "All ProVerif model verification checks passed."
